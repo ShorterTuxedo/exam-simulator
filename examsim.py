@@ -5,7 +5,9 @@ import keyboard
 from gtts import gTTS
 from ctypes import *
 
- 
+
+loadFromFile = True
+
 VR=120
 tts_engines=["HKEY_LOCAL_MACHINE\\SOFTWARE\\Microsoft\\Speech\\Voices\\Tokens\\TTS_MS_EN-US_DAVID_11.0"]
 
@@ -59,15 +61,25 @@ def genTime(hour, min):
 
 #play_tts("This is a voice test.")
 #unused dummy
-Paper=input("Paper?")
-TIME_MINS=int(input("Time in mins?"))
-readRules=""
-while readRules!=True and readRules!=False:
-    readRules=input("Read rules?")
-    if readRules.lower()=="true":
-        readRules=True
-    elif readRules.lower()=="false":
-        readRules=False
+Paper=""
+TIME_MINS=0
+readRules=True
+if not loadFromFile:
+    Paper=input("Paper?")
+    TIME_MINS=int(input("Time in mins?"))
+    readRules=""
+    while readRules!=True and readRules!=False:
+        readRules=input("Read rules?")
+        if readRules.lower()=="true":
+            readRules=True
+        elif readRules.lower()=="false":
+            readRules=False
+else:
+    import json
+    file=json.loads(open("config.json","r").read())
+    Paper=file["Paper"]
+    readRules=file["readRules"]
+    TIME_MINS=file["TIME_MINS"]
 def myFunc(root,w,x,y,z, a, block,mouse_listener,keyboard_listener):
     global engine
     global play_tts
