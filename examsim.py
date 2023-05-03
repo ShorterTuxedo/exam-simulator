@@ -59,18 +59,21 @@ def genTime(hour, min):
 #play_tts("This is a voice test.")
 #unused dummy
 Paper=input("Paper?")
+TIME_MINS=int(input("Time in mins?"))
+readRules=""
+while readRules!=True and readRules!=False:
+    readRules=input("Read rules?")
+    if readRules.lower()=="true":
+        readRules=True
+    elif readRules.lower()=="false":
+        readRules=False
 def myFunc(root,w,x,y,z, a):
     global engine
     global play_tts
     global playsound
-    TIME_MINS=int(input("Time in mins?"))
-    readRules=""
-    while readRules!=True and readRules!=False:
-        readRules=input("Read rules?")
-        if readRules.lower()=="true":
-            readRules=True
-        elif readRules.lower()=="false":
-            readRules=False
+    global Paper
+    global TIME_MINS
+    global readRules
     print("10s. Get the job done.")
 
     if readRules:
@@ -201,10 +204,14 @@ def alt_f4(event):  # Alt-F4 is pressed
     print('Alt-F4 pressed')
     pressed_f4 = True
 
+def alt_tab(event):
+    print("Alt-Tab pressed")
+
 def close(*event):  # Exit application
     root.destroy()
 
 root.bind('<Alt-F4>', alt_f4)
+root.bind('<Alt-Tab>', alt_tab)
 root.bind('<Escape>', close)
 root.protocol("WM_DELETE_WINDOW",do_exit)
 
