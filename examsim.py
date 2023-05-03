@@ -1,8 +1,9 @@
 import time, datetime, threading #, pygame
 import pyttsx3, sys
 from playsound import playsound
+import keyboard
 from gtts import gTTS
-
+from ctypes import *
 
  
 VR=120
@@ -67,7 +68,7 @@ while readRules!=True and readRules!=False:
         readRules=True
     elif readRules.lower()=="false":
         readRules=False
-def myFunc(root,w,x,y,z, a):
+def myFunc(root,w,x,y,z, a, block,mouse_listener,keyboard_listener):
     global engine
     global play_tts
     global playsound
@@ -135,11 +136,21 @@ def myFunc(root,w,x,y,z, a):
         playsound("30mins.mp3")
         time.sleep(25*60)
         playsound("5mins.mp3")
+        time.sleep(5*60)
+        playsound("time_elapsed.mp3")
     elif TIME_MINS>=10:
         time.sleep(((TIME_MINS-5)*60))
         playsound("5mins.mp3")
-    time.sleep(5*60)
-    playsound("time_elapsed.mp3")
+        time.sleep(5*60)
+        playsound("time_elapsed.mp3")
+    else:
+        time.sleep(TIME_MINS*60)
+        playsound("time_elapsed.mp3")
+    windll.user32.BlockInput(False)    
+    # Enable mouse and keyboard events
+    mouse_listener.stop()
+    keyboard_listener.stop()
+    root.destroy()
     sys.exit(0)
 
 import tkinter as tk
@@ -186,8 +197,6 @@ a.place(
 )
 
 
-threading.Thread(target=myFunc,args=[root,w,x,y,z,a]).start()
-
 pressed_f4 = False  # Is Alt-F4 pressed?
 
 def do_exit():
@@ -214,6 +223,17 @@ root.bind('<Alt-F4>', alt_f4)
 root.bind('<Alt-Tab>', alt_tab)
 root.bind('<Escape>', close)
 root.protocol("WM_DELETE_WINDOW",do_exit)
-
 root.overrideredirect(True)
+
+import pynput
+
+# Disable mouse and keyboard events
+mouse_listener = pynput.mouse.Listener(suppress=True)
+mouse_listener.start()
+keyboard_listener = pynput.keyboard.Listener(suppress=True)
+keyboard_listener.start()
+block=None
+threading.Thread(target=myFunc,args=[root,w,x,y,z,a,block,mouse_listener,keyboard_listener]).start()
+
 root.mainloop()
+sys.exit(0)
