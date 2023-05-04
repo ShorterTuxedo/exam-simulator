@@ -4,7 +4,19 @@ from playsound import playsound
 import keyboard
 from gtts import gTTS
 from ctypes import *
+import art
 
+print("""
+
+███████╗██╗  ██╗ █████╗ ███╗   ███╗      ███████╗██╗███╗   ███╗
+██╔════╝╚██╗██╔╝██╔══██╗████╗ ████║      ██╔════╝██║████╗ ████║
+█████╗   ╚███╔╝ ███████║██╔████╔██║█████╗███████╗██║██╔████╔██║
+██╔══╝   ██╔██╗ ██╔══██║██║╚██╔╝██║╚════╝╚════██║██║██║╚██╔╝██║
+███████╗██╔╝ ██╗██║  ██║██║ ╚═╝ ██║      ███████║██║██║ ╚═╝ ██║
+╚══════╝╚═╝  ╚═╝╚═╝  ╚═╝╚═╝     ╚═╝      ╚══════╝╚═╝╚═╝     ╚═╝
+                                                               """)
+
+print(" V 1.2 ")
 
 loadFromFile = True
 
@@ -64,6 +76,7 @@ def genTime(hour, min):
 Paper=""
 TIME_MINS=0
 readRules=True
+COUNTDOWN=False
 if not loadFromFile:
     Paper=input("Paper?")
     TIME_MINS=int(input("Time in mins?"))
@@ -74,13 +87,22 @@ if not loadFromFile:
             readRules=True
         elif readRules.lower()=="false":
             readRules=False
+    COUNTDOWN=""
+    while COUNTDOWN!=True and COUNTDOWN!=False:
+        COUNTDOWN=input("Read rules?")
+        if COUNTDOWN.lower()=="true":
+            COUNTDOWN=True
+        elif COUNTDOWN.lower()=="false":
+            COUNTDOWN=False
 else:
     import json
     file=json.loads(open("config.json","r").read())
     Paper=file["Paper"]
     readRules=file["readRules"]
     TIME_MINS=file["TIME_MINS"]
+    COUNTDOWN=file["COUNTDOWN"]
 def myFunc(root,w,x,y,z, a, block,mouse_listener,keyboard_listener):
+    global COUNTDOWN
     global engine
     global play_tts
     global playsound
@@ -116,33 +138,34 @@ def myFunc(root,w,x,y,z, a, block,mouse_listener,keyboard_listener):
     play_tts("The time now is " + genTime(h1,m1) + ". We will finish at " + genTime(h2,m2) + f" {theFollowingMorning}. The exam has commenced. ")
     #unused dummy
     playsound("Youmaybegin.mp3")
-    def startTimer(TIME_MINS,a):
-        timeElaps=TIME_MINS*60
-        while timeElaps>0:
-            aaa=timeElaps
-            hour=0
-            while aaa>=3600:
-                aaa-=3600
-                hour+=1
-            min=0
-            while aaa>=60:
-                aaa-=60
-                min+=1
-            sec=aaa
-            B=""
-            if hour>0:
-                hour=str(hour)
-                B+=f"{hour}:"
-            min=str(min).zfill(2)
-            B+=f"{min}:"
-            sec=str(sec).zfill(2)
-            B+=f"{sec}"
-            a.config(text=B)
-            time.sleep(1)
-            timeElaps-=1
-        a.config(text="Time's up")
-        return
-    threading.Thread(target=startTimer,args=[TIME_MINS,a]).start()
+    if COUNTDOWN:
+        def startTimer(TIME_MINS,a):
+            timeElaps=TIME_MINS*60
+            while timeElaps>0:
+                aaa=timeElaps
+                hour=0
+                while aaa>=3600:
+                    aaa-=3600
+                    hour+=1
+                min=0
+                while aaa>=60:
+                    aaa-=60
+                    min+=1
+                sec=aaa
+                B=""
+                if hour>0:
+                    hour=str(hour)
+                    B+=f"{hour}:"
+                min=str(min).zfill(2)
+                B+=f"{min}:"
+                sec=str(sec).zfill(2)
+                B+=f"{sec}"
+                a.config(text=B)
+                time.sleep(1)
+                timeElaps-=1
+            a.config(text="Time's up")
+            return
+        threading.Thread(target=startTimer,args=[TIME_MINS,a]).start()
     if TIME_MINS>=60:
         time.sleep(((TIME_MINS-30)*60))
         playsound("30mins.mp3")
@@ -195,19 +218,42 @@ z.place(
     x=round(root.winfo_screenwidth()/8)
     ,y=round(root.winfo_screenheight()/2)+50
 )
+b=None
+a=None
+if COUNTDOWN:
+    b = tk.Label(root, text="Time Remaining:",font=("Arial",32))
+    b.place(
+        x=round(root.winfo_screenwidth()*(5/8))-100
+        ,y=round(root.winfo_screenheight()/2)-75
+    )
 
-b = tk.Label(root, text="Time Remaining:",font=("Arial",32))
-b.place(
-    x=round(root.winfo_screenwidth()*(5/8))-100
-    ,y=round(root.winfo_screenheight()/2)-75
-)
+    a = tk.Label(root, text="Not Started",font=("Arial",96))
+    a.place(
+        x=round(root.winfo_screenwidth()*(5/8))-100
+        ,y=round(root.winfo_screenheight()/2)-25
+    )
+else:
+    b = tk.Label(root, text="Time Now:",font=("Arial",32))
+    b.place(
+        x=round(root.winfo_screenwidth()*(5/8))-100
+        ,y=round(root.winfo_screenheight()/2)-75
+    )
 
-a = tk.Label(root, text="Not Started",font=("Arial",96))
-a.place(
-    x=round(root.winfo_screenwidth()*(5/8))-100
-    ,y=round(root.winfo_screenheight()/2)-25
-)
-
+    a = tk.Label(root, text="Not Started",font=("Arial",96))
+    a.place(
+        x=round(root.winfo_screenwidth()*(5/8))-100
+        ,y=round(root.winfo_screenheight()/2)-25
+    )
+    def updateTime(a):
+        while True:
+            now_time=datetime.datetime.now()
+            hr = str(now_time.hour)
+            mn = str(now_time.minute).zfill(2)
+            sc = str(now_time.hour).zfill(2)
+            myTime=f"{hr}:{mn}:{sc}"
+            a.config(text=myTime)
+            time.sleep(1)
+    threading.Thread(target=updateTime,args=[a]).start()
 
 pressed_f4 = False  # Is Alt-F4 pressed?
 
