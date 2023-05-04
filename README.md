@@ -1,6 +1,8 @@
 # exam-simulator
 Invigilator Simulator
 
+Might make some other study-related tools too
+
 ## NEW For Last Minute Crammers 
 
 - Added config.json for Cambridge 0500 Paper 2: Directed Writing
