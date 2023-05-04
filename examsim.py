@@ -16,7 +16,7 @@ print("""
 ╚══════╝╚═╝  ╚═╝╚═╝  ╚═╝╚═╝     ╚═╝      ╚══════╝╚═╝╚═╝     ╚═╝
                                                                """)
 
-print(" V 1.2 ")
+print(" V 1.2a ")
 
 loadFromFile = True
 
@@ -120,6 +120,10 @@ def myFunc(root,w,x,y,z, a, block,mouse_listener,keyboard_listener):
     # creating window
 
     timenow=datetime.datetime.now()
+    if timenow.second>0:
+        timeNow-=datetime.timedelta(seconds=timenow.second)
+    timeNow+=datetime.timedelta(minutes=1) # 
+    timeNow+=datetime.timedelta(minutes=2)
     h1=timenow.hour
     m1=timenow.minute
     h1_=f"{h1}".zfill(2)
@@ -135,8 +139,12 @@ def myFunc(root,w,x,y,z, a, block,mouse_listener,keyboard_listener):
     m2_=f"{m2}".zfill(2)
     z.config(text=f"{h2_}:{m2_}")
     theFollowingMorning=""if c==d else "the following morning"
-    play_tts("The time now is " + genTime(h1,m1) + ". We will finish at " + genTime(h2,m2) + f" {theFollowingMorning}. The exam has commenced. ")
+    play_tts("We will start at " + genTime(h1,m1) + ". We will finish at " + genTime(h2,m2) + f" {theFollowingMorning}. The exam has commenced. ")
     #unused dummy
+    nowHour=datetime.datetime.now()
+    while (nowHour.hour*60+nowHour.minute)<(h1*60+m1): # WAIT UNTIL THE TIME STARTS 
+        nowHour=datetime.datetime.now()
+        time.sleep(0.05)
     playsound("Youmaybegin.mp3")
     if COUNTDOWN:
         def startTimer(TIME_MINS,a):
