@@ -18,6 +18,8 @@ Might make some other study-related tools too
 
 - Now waits until a few minutes later to start the exam
 
+#### v1.2
+
 - Added timer and clock functionality.
 
 ## v1.1
