@@ -239,7 +239,7 @@ else:
         ,y=round(root.winfo_screenheight()/2)-75
     )
 
-    a = tk.Label(root, text="Not Started",font=("Arial",96))
+    a = tk.Label(root, text="XX:XX:XX",font=("Arial",96))
     a.place(
         x=round(root.winfo_screenwidth()*(5/8))-100
         ,y=round(root.winfo_screenheight()/2)-25
@@ -249,7 +249,7 @@ else:
             now_time=datetime.datetime.now()
             hr = str(now_time.hour)
             mn = str(now_time.minute).zfill(2)
-            sc = str(now_time.hour).zfill(2)
+            sc = str(now_time.second).zfill(2)
             myTime=f"{hr}:{mn}:{sc}"
             a.config(text=myTime)
             time.sleep(1)
