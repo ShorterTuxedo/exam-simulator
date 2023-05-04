@@ -1,7 +1,10 @@
 # exam-simulator
 Invigilator Simulator
 
-# NEW For Last Minute Crammers - Added config.json for EFL 0500 Paper 2 Takers!
+## NEW For Last Minute Crammers 
+
+- Added config.json for Cambridge 0500 Paper 2: Directed Writing
+- Added config.json for Cambrdige 0478 Paper 1: Computer Systems
 
 # Changelog
 ## v1.2
