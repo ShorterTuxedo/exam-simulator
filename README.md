@@ -1,5 +1,8 @@
-# exam-simulator
-Invigilator Simulator
+# Exam Simulator
+Simulates exam conditions.
+
+# NOTICE: WINDOWS ONLY
+![Windows Logo](https://user-images.githubusercontent.com/49613009/236215231-f87b421a-cf53-4769-9212-2b874a400546.png)
 
 Might make some other study-related tools too
 
@@ -10,6 +13,10 @@ Might make some other study-related tools too
 
 # Changelog
 ## v1.2
+
+#### v1.2a
+
+- Now waits until a few minutes later to start the exam
 
 - Added timer and clock functionality.
 
