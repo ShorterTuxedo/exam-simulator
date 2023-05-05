@@ -121,9 +121,9 @@ def myFunc(root,w,x,y,z, a, block,mouse_listener,keyboard_listener):
 
     timenow=datetime.datetime.now()
     if timenow.second>0:
-        timeNow-=datetime.timedelta(seconds=timenow.second)
-    timeNow+=datetime.timedelta(minutes=1) # 
-    timeNow+=datetime.timedelta(minutes=2)
+        timenow-=datetime.timedelta(seconds=timenow.second)
+    timenow+=datetime.timedelta(minutes=1) # 
+    timenow+=datetime.timedelta(minutes=2)
     h1=timenow.hour
     m1=timenow.minute
     h1_=f"{h1}".zfill(2)
