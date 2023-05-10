@@ -1,6 +1,6 @@
 import time, datetime, threading #, pygame
 import pyttsx3, sys
-from playsound import playsound
+import playsound as ps
 import keyboard
 from gtts import gTTS
 from ctypes import *
@@ -15,6 +15,13 @@ print("""
 ███████╗██╔╝ ██╗██║  ██║██║ ╚═╝ ██║      ███████║██║██║ ╚═╝ ██║
 ╚══════╝╚═╝  ╚═╝╚═╝  ╚═╝╚═╝     ╚═╝      ╚══════╝╚═╝╚═╝     ╚═╝
                                                                """)
+
+def playsound(sound):
+    myT=lambda x:ps.playsound(x)
+    threading.Thread(target=myT,args=[sound]).start()
+
+def playsound_sync(sound):
+    ps.playsound(sound)
 
 print(" V 1.2a ")
 
@@ -113,7 +120,7 @@ def myFunc(root,w,x,y,z, a, block,mouse_listener,keyboard_listener):
 
     if readRules:
         time.sleep(10)
-        playsound("rulesread.mp3")
+        playsound_sync("rulesread.mp3")
     time.sleep(10)
     time.sleep(2.5)
 
@@ -180,7 +187,7 @@ def myFunc(root,w,x,y,z, a, block,mouse_listener,keyboard_listener):
         time.sleep(25*60)
         playsound("5mins.mp3")
         time.sleep(5*60)
-        playsound("time_elapsed.mp3")
+        playsound_sync("time_elapsed.mp3")
     elif TIME_MINS>=10:
         time.sleep(((TIME_MINS-5)*60))
         playsound("5mins.mp3")
@@ -188,7 +195,7 @@ def myFunc(root,w,x,y,z, a, block,mouse_listener,keyboard_listener):
         playsound("time_elapsed.mp3")
     else:
         time.sleep(TIME_MINS*60)
-        playsound("time_elapsed.mp3")
+        playsound_sync("time_elapsed.mp3")
     windll.user32.BlockInput(False)    
     # Enable mouse and keyboard events
     mouse_listener.stop()
