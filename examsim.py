@@ -54,7 +54,7 @@ def genTime(hour, min):
     if hour>12:
         pmAm="pm"
     if min == 0:
-        return f"{hourMy} o clock"
+        return f"{hourMy} o clock {pmAm}"
     elif min == 15:
         return f"quarter past {hourMy} {pmAm}"
     elif min < 30 and min != 15:
@@ -63,14 +63,19 @@ def genTime(hour, min):
         return f"half past {hourMy} {pmAm}"
     elif min == 45:
         hourMy = hourMy+1
-        if hour==11:
+        hourMy=hourMy%24
+        pmAm="am"
+        if hourMy>12:
             pmAm="pm"
-        elif hour==23:
-            pmAm="am"
         hourMy = processTime(hourMy)
         return f"quarter to {hourMy} {pmAm}"
     elif min > 30 and min != 45:
         hourMy = hourMy+1
+        hourMy=hourMy%24
+        pmAm="am"
+        if hourMy>12:
+            pmAm="pm"
+        hourMy=processTime(hourMy)
         newMin = 60-min 
         if hour==11:
             pmAm="pm"
