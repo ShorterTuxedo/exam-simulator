@@ -12,13 +12,18 @@ Might make some other study-related tools too
 - Added config.json for Cambrdige 0478 Paper 1: Computer Systems
 
 # Changelog
-## v1.2
 
-#### v1.2a
+## v1.2a 
+
+v1.2a is a **proper** version now.
 
 - Now waits until a few minutes later to start the exam
 
-#### v1.2
+#### Bug fixes
+- Fixed issue where time is incorrect
+- Made 30minute and 5minute warnings async
+
+## v1.2
 
 - Added timer and clock functionality.
 
